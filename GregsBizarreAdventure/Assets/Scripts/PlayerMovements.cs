@@ -5,7 +5,7 @@ public class PlayerMovements : MonoBehaviour
 {
     [SerializeField] private float moveSpeed, jumpForce;
 
-    [SerializeField] private bool isJumping, isGrounded;
+    [SerializeField] private bool isJumping, isGrounded, isSliding;
 
     // Those variables are used to check is the player is currently on the ground, the 'transform' is the center of the
     // circle attached to the player, the 'radius' is the radius of the circle
@@ -55,16 +55,31 @@ public class PlayerMovements : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             isJumping = true;
+        //    animator.SetBool("isJumping", true);
         }
+
+        /*if (Input.GetButtonDown("Crouch"))
+        {
+            isSliding = true;
+        } else if (Input.GetButtonUp("Crouch"))
+        {
+            isSliding = false;
+        }*/
 
         // If the player go to the left, the sprite should flip
         FlipX(rb.velocity.x);
 
         float characterVelocity = Mathf.Abs(rb.velocity.x);
-        animator.SetFloat("Speed", characterVelocity);
+        animator.SetFloat("Speed", Math.Abs(characterVelocity));
         animator.SetBool("isJumping", isJumping);
         animator.SetBool("isGrounded", isGrounded);
     }
+/*
+    public void OnLanding()
+    {
+        animator.SetBool("isJumping", false);
+    } */
+    
 
     void FixedUpdate()
     {
